@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	body {
+		@apply min-h-screen bg-gray-100 lg:px-40 lg:py-8 px-5 py-5 relative;
+	}
+}
