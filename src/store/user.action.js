@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { userActions } from "./user.slice";
@@ -70,6 +71,19 @@ export const signUpUser = (email, password) => {
       const error_code = error.code.replace("auth/", "");
       console.log(authErrors[error_code]);
       dispatch(userActions.SIGN_UP_FAILED(authErrors[error_code]));
+      throw error;
+    }
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    try {
+      const isSuccess = await signOut(auth);
+      dispatch(userActions.SIGN_OUT());
+      return true;
+    } catch (error) {
+      console.log(error);
       throw error;
     }
   };

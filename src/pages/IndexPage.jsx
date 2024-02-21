@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { customerActions } from "../store/customer.slice";
 
 import GridContainer from "../components/GridContainer";
 import Toast from "../components/Toast";
@@ -8,7 +9,6 @@ import TableContainer from "../components/TableContainer";
 import Button from "../components/Button";
 import Loading from "../components/Loading";
 import DynamicModal from "../components/DynamicModal";
-import { customerActions } from "../store/customer.slice";
 
 export default function IndexPage() {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export default function IndexPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [showDynamicModal, setShowDynamicModal] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
 
   useEffect(() => {
     if (status.isLoading) {
@@ -60,6 +61,7 @@ export default function IndexPage() {
   const openModal = () => {
     setIsVisible(true);
   };
+
   const closeModal = () => {
     setIsVisible(false);
     setEditInfo({});
@@ -72,8 +74,14 @@ export default function IndexPage() {
     openModal();
   };
 
+  const logoutUser = () => {
+    setIsLogout(true);
+    setShowDynamicModal(true);
+  };
+
   const handleDeleteUser = async (id) => {
     await dispatch(customerActions.SET_USERID_TO_DELETE(id));
+    setIsLogout(false);
     setShowDynamicModal(true);
   };
 
@@ -83,7 +91,11 @@ export default function IndexPage() {
   return (
     <>
       {showLoading && <Loading />}
-      <DynamicModal isOpen={showDynamicModal} onClose={closeDynamicModal} />
+      <DynamicModal
+        isOpen={showDynamicModal}
+        onClose={closeDynamicModal}
+        isLogout={isLogout}
+      />
       <Modal isOpen={isVisible} editInfo={editInfo} closeModal={closeModal} />
 
       <div className="w-full py-2">
@@ -107,6 +119,7 @@ export default function IndexPage() {
             />
 
             <Button
+              onClick={logoutUser}
               style={
                 "rounded-full w-35 bg-gray-500 hover:bg-gray-700 px-5 py-2 text-white transition-all mt-2 lg:mt-0"
               }

@@ -47,6 +47,7 @@ const userSlice = createSlice({
       state.userCredentials.displayName = "";
       state.isAuth = false;
       state.loginError = "";
+      state.signUpError = "";
     },
   },
 });

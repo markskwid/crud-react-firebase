@@ -47,6 +47,7 @@ export const fetchCustomerData = () => {
 
 export const addCustomerInfo = (customerData) => {
   return async (dispatch) => {
+    dispatch(customerActions.ADD_LOADING());
     try {
       // const response = await addCustomer(customerData);
 
@@ -135,4 +136,5 @@ export const deleteUserInfo = (id) => {
   };
 };
 
-// add loading for 
+// add loading for adding and updating
+// update the dynamic modal component so that it can use it logout

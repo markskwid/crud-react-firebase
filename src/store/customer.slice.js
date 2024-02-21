@@ -7,6 +7,7 @@ const initialState = {
   isEditingSuccess: false,
   isDeletingSuccess: false,
   deleteLoading: false,
+  addLoading: false,
   userIdToDelete: "",
   error: "",
 };
@@ -36,8 +37,13 @@ const customerSlice = createSlice({
       state.error = action.payload.success ? "" : action.payload.error;
     },
 
+    ADD_LOADING(state) {
+      state.addLoading = true;
+    },
+
     ADD_CUSTOMER_SUCCESS(state) {
       state.isAddingSuccess = false;
+      state.addLoading = false;
     },
 
     SET_USERID_TO_DELETE(state, action) {
