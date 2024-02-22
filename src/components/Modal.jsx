@@ -1,7 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { CustomerContext } from "../store/CustomerStore";
-import { v4 as generateId } from "uuid";
-import Button from "./Button";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCustomerInfo, updateUserInfo } from "../store/customer.actions";
 import { formatName } from "../util/util";
@@ -11,10 +8,14 @@ import {
   isEmailValid,
   isPhoneValid,
 } from "../util/validation";
+import Button from "./Button";
+import LoadingCircle from "./LoadingCircle";
 
 export default function Modal({ isOpen, editInfo, closeModal }) {
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customer);
+  const addLoading = useSelector((state) => state.customer.addLoading);
+  const updateLoading = useSelector((state) => state.customer.updateLoading);
 
   const [error, setError] = useState({
     name: false,
@@ -84,17 +85,26 @@ export default function Modal({ isOpen, editInfo, closeModal }) {
         name: formatName(information.name),
       };
       if (editInfo.name && editInfo.id && editInfo.email && editInfo.phone) {
+        console.log(updateLoading);
         dispatch(
           updateUserInfo({
             ...updateName,
             id: editInfo.id,
           })
-        );
+        )
+          .then((response) => {
+            closeThisModal();
+          })
+          .catch((error) => console.log(error));
       } else {
         //add endpoint
-        dispatch(addCustomerInfo(updateName));
+        dispatch(addCustomerInfo(updateName))
+          .then((response) => {
+            closeThisModal();
+          })
+          .catch((error) => console.log(error));
       }
-      closeThisModal();
+      // closeThisModal();
     }
   };
 
@@ -120,6 +130,7 @@ export default function Modal({ isOpen, editInfo, closeModal }) {
                   id="name"
                   value={information.name}
                   className={getInputClassName(error.name)}
+                  disabled={addLoading || updateLoading}
                 />
                 {error.name && (
                   <p className="text-xs text-red-400 m-0">
@@ -137,6 +148,7 @@ export default function Modal({ isOpen, editInfo, closeModal }) {
                   id="phone"
                   value={information.phone}
                   className={getInputClassName(error.phone)}
+                  disabled={addLoading || updateLoading}
                 />
                 {error.phone && (
                   <p className="text-xs text-red-400 m-0">
@@ -157,6 +169,7 @@ export default function Modal({ isOpen, editInfo, closeModal }) {
                   className={getInputClassName(
                     error.email || error.duplicateEmail
                   )}
+                  disabled={addLoading || updateLoading}
                 />
                 {error.email ? (
                   <p className="text-xs text-red-400 m-0">
@@ -177,22 +190,30 @@ export default function Modal({ isOpen, editInfo, closeModal }) {
                   label="Close"
                 />
 
-                <Button
-                  type="submit"
-                  style={`w-full lg:w-40 py-4 lg:py-3 px-5 ${
-                    information.name || information.email || information.phone
-                      ? "bg-purple-600 text-white"
-                      : "bg-gray-300 text-slate-600"
-                  } rounded-full font-semibold transition-all mb-4 lg:mb-0`}
-                  label={
-                    editInfo.name &&
-                    editInfo.id &&
-                    editInfo.email &&
-                    editInfo.phone
-                      ? "Save Changes"
-                      : "Add Contact"
-                  }
-                />
+                {updateLoading || addLoading ? (
+                  <LoadingCircle />
+                ) : (
+                  <Button
+                    type="submit"
+                    style={`w-full lg:w-40 py-4 lg:py-3 px-5 ${
+                      information.name || information.email || information.phone
+                        ? "bg-purple-600 text-white"
+                        : "bg-gray-300 text-slate-600"
+                    } rounded-full font-semibold transition-all mb-4 lg:mb-0`}
+                    label={
+                      editInfo.name &&
+                      editInfo.id &&
+                      editInfo.email &&
+                      editInfo.phone ? (
+                        "Save Changes"
+                      ) : addLoading ? (
+                        <LoadingCircle />
+                      ) : (
+                        "Add Contact"
+                      )
+                    }
+                  />
+                )}
               </div>
             </form>
           </div>

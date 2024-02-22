@@ -47,7 +47,7 @@ export const fetchCustomerData = () => {
 
 export const addCustomerInfo = (customerData) => {
   return async (dispatch) => {
-    dispatch(customerActions.ADD_LOADING());
+    dispatch(customerActions.ADD_ON_PROCESS());
     try {
       // const response = await addCustomer(customerData);
 
@@ -66,6 +66,7 @@ export const addCustomerInfo = (customerData) => {
       );
 
       setTimeout(() => dispatch(customerActions.ADD_CUSTOMER_SUCCESS()), 1100);
+      return true;
     } catch (error) {
       console.log(error);
       dispatch(
@@ -75,11 +76,13 @@ export const addCustomerInfo = (customerData) => {
         })
       );
     }
+    throw error;
   };
 };
 
 export const updateUserInfo = (data) => {
   return async (dispatch) => {
+    dispatch(customerActions.EDIT_ON_PROCESS());
     const { id } = data;
     try {
       // const response = await editUser(id, data);
@@ -93,6 +96,7 @@ export const updateUserInfo = (data) => {
         })
       );
       setTimeout(() => dispatch(customerActions.EDIT_CUSTOMER_SUCCESS()), 1100);
+      return true;
     } catch (error) {
       dispatch(
         customerActions.EDIT_CUSTOMER({
@@ -102,6 +106,7 @@ export const updateUserInfo = (data) => {
       );
       console.log(error);
     }
+    throw error;
   };
 };
 

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { userActions } from "./user.slice";
 const initialState = {
   items: [],
   isLoading: true,
@@ -8,6 +8,7 @@ const initialState = {
   isDeletingSuccess: false,
   deleteLoading: false,
   addLoading: false,
+  updateLoading: false,
   userIdToDelete: "",
   error: "",
 };
@@ -37,7 +38,7 @@ const customerSlice = createSlice({
       state.error = action.payload.success ? "" : action.payload.error;
     },
 
-    ADD_LOADING(state) {
+    ADD_ON_PROCESS(state) {
       state.addLoading = true;
     },
 
@@ -65,6 +66,9 @@ const customerSlice = createSlice({
       state.deleteLoading = false;
       state.userIdToDelete = "";
     },
+    EDIT_ON_PROCESS(state) {
+      state.updateLoading = true;
+    },
 
     EDIT_CUSTOMER(state, action) {
       state.items = state.items.map((item) =>
@@ -80,7 +84,23 @@ const customerSlice = createSlice({
 
     EDIT_CUSTOMER_SUCCESS(state) {
       state.isEditingSuccess = false;
+      state.updateLoading = false;
     },
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(userActions.SIGN_OUT, (state) => {
+      state.items = [];
+      state.isLoading = true;
+      state.isAddingSuccess = false;
+      state.isEditingSuccess = false;
+      state.isDeletingSuccess = false;
+      state.deleteLoading = false;
+      state.addLoading = false;
+      state.updateLoading = false;
+      state.userIdToDelete = "";
+      state.error = "";
+    });
   },
 });
 
