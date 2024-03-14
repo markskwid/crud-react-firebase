@@ -15,14 +15,6 @@ import { fetchCustomerData } from "./store/customer.actions";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUpPage";
 
-// const router = createBrowserRouter([
-//   { path: "/", element: <Login key="login" /> },
-//   { path: "/signup", element: <SignUp key={"signup"} /> },
-//   { path: "/home", element: <IndexPage key="index" /> },
-//   { path: "/view-customer/:id", element: <ViewPage key="view" /> },
-//   { path: "*", element: <ErrorPage key="error" /> },
-// ]);
-
 function App() {
   const dispatch = useDispatch();
   const isAuthed = useSelector((state) => state.user.isAuth);

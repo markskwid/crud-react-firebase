@@ -23,7 +23,6 @@ const customerSlice = createSlice({
 
     FETCH_SUCCESS(state, action) {
       state.items = action.payload.items;
-      console.log(state.items);
       state.isLoading = false;
     },
 

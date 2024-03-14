@@ -27,7 +27,7 @@ export const fetchCustomerData = () => {
         });
       });
 
-      console.log("fetched_data", data);
+      // console.log("fetched_data", data);
 
       dispatch(
         customerActions.FETCH_SUCCESS({
