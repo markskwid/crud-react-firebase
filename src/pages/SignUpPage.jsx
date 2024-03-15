@@ -49,7 +49,7 @@ export default function SignUp() {
 
   const handleBackButton = () => {
     dispatch(userActions.RESET_SIGNUP_ERROR());
-    navigate("/");
+    navigate("/crud-react-firebase");
   };
 
   const getButtonColor = (isSame) =>

@@ -32,7 +32,7 @@ function App() {
     <main>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/crud-react-firebase" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/home"
