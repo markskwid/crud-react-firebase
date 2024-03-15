@@ -22,7 +22,7 @@ export default function DynamicModal({ isOpen, onClose, isLogout }) {
 
   const signOutUser = () => {
     dispatch(logoutUser())
-      .then((response) => navigate("/"))
+      .then((response) => navigate("/crud-react-firebase"))
       .catch((error) => console.log(error));
   };
 

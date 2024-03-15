@@ -30,7 +30,7 @@ export default function ViewPage() {
       {isLoading && <Loading />}
       <div className="w-full drop-shadow-lg">
         <h1 className="text-xl font-extrabold">
-          <Link to="/crud-react-firebase">
+          <Link to="/home">
             <span className="text-lg mr-2" aria-hidden="true" aria-label="">
               <ion-icon name="arrow-back-sharp"></ion-icon>
             </span>
